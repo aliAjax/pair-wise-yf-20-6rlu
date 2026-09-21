@@ -18,8 +18,14 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 button {
@@ -165,12 +171,14 @@ label span {
   font-size: 13px;
 }
 
-input {
+input,
+select {
   width: 100%;
   min-height: 42px;
   border-radius: 7px;
   border: 1px solid var(--border);
   padding: 0 12px;
+  background: #ffffff;
 }
 
 .records {
@@ -208,6 +216,383 @@ input {
   line-height: 1.6;
 }
 
+/* ===== 停火 / 恢复控制台 ===== */
+
+.clock {
+  display: grid;
+  gap: 6px;
+  justify-items: end;
+}
+
+.clock > span {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.clock strong {
+  font-size: 30px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+.clock-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.clock-actions button {
+  padding: 0 12px;
+}
+
+.ceasefire-panel.is-active {
+  border-color: var(--secondary);
+  box-shadow: 0 16px 40px rgba(220, 38, 38, 0.14);
+}
+
+.status-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.status-strip span {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.status-strip .st-fired {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-strip .st-pending {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-strip .st-suspended {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.ceasefire-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ceasefire-row p {
+  margin: 0;
+  color: #526071;
+  line-height: 1.6;
+}
+
+.danger {
+  background: var(--secondary);
+  color: #ffffff;
+  border-color: var(--secondary);
+  padding: 0 18px;
+  font-weight: 700;
+}
+
+.resume-box {
+  display: grid;
+  gap: 14px;
+}
+
+.ceasefire-banner {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: var(--secondary);
+  font-weight: 700;
+}
+
+.errors {
+  margin: 0;
+  padding: 12px 14px 12px 32px;
+  border-radius: 8px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: var(--secondary);
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+.ok-note {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+  font-weight: 600;
+}
+
+.resume-log {
+  margin-top: 16px;
+  border-top: 1px dashed var(--border);
+  padding-top: 12px;
+}
+
+.resume-log h3 {
+  margin: 0 0 8px;
+}
+
+.resume-log p {
+  margin: 4px 0;
+  color: #526071;
+  font-size: 14px;
+}
+
+/* ===== 点位图 ===== */
+
+.map {
+  width: 100%;
+  display: block;
+  margin-bottom: 14px;
+}
+
+.map-bound {
+  fill: #f8fafc;
+  stroke: var(--border);
+}
+
+.map-line {
+  stroke: #cbd5e1;
+  stroke-dasharray: 3 2;
+}
+
+.map-note {
+  font-size: 5px;
+  fill: #94a3b8;
+}
+
+.map-label {
+  font-size: 6px;
+  font-weight: 800;
+  fill: #172033;
+}
+
+.pos-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.pos-list li {
+  display: grid;
+  grid-template-columns: 12px 64px 1fr;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.pos-list i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.pos-list span {
+  color: #64748b;
+}
+
+/* ===== 时间轴 ===== */
+
+.axis-clock {
+  color: var(--secondary);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.timeline {
+  display: grid;
+  gap: 10px;
+}
+
+.tl-row {
+  display: grid;
+  grid-template-columns: 190px 1fr 92px 190px;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fbfdff;
+  --st: #1d4ed8;
+}
+
+.tl-row.st-fired {
+  --st: #16a34a;
+}
+
+.tl-row.st-suspended {
+  --st: #f59e0b;
+  background: #fffbeb;
+}
+
+.tl-row.st-fired {
+  background: #f0fdf4;
+}
+
+.tl-scale {
+  padding: 0 14px;
+  border: none;
+  background: transparent;
+}
+
+.tl-scale-labels {
+  display: flex;
+  justify-content: space-between;
+  color: #94a3b8;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.tl-meta {
+  display: grid;
+  gap: 3px;
+}
+
+.tl-meta b {
+  font-variant-numeric: tabular-nums;
+}
+
+.tl-meta span {
+  color: #526071;
+  font-size: 13px;
+}
+
+.conflict-tag {
+  display: inline-block;
+  font-style: normal;
+  font-size: 12px;
+  color: var(--secondary);
+  font-weight: 700;
+}
+
+.tl-track {
+  position: relative;
+  height: 10px;
+  border-radius: 6px;
+  background: #e8eef7;
+}
+
+.tl-planned {
+  position: absolute;
+  top: -3px;
+  width: 7px;
+  height: 16px;
+  border-radius: 4px;
+  background: var(--st);
+  transform: translateX(-50%);
+}
+
+.tl-fired {
+  position: absolute;
+  top: -5px;
+  width: 3px;
+  height: 20px;
+  border-radius: 2px;
+  background: #14532d;
+  transform: translateX(-50%);
+}
+
+.tl-clock {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--secondary);
+  opacity: 0.8;
+}
+
+.badge {
+  justify-self: start;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #ffffff;
+  background: var(--st);
+  white-space: nowrap;
+}
+
+.tl-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tl-action button {
+  padding: 0 12px;
+  white-space: nowrap;
+}
+
+.readonly-note {
+  color: #15803d;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== 型号清单 ===== */
+
+.model-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.model-table th,
+.model-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.model-table th {
+  color: #64748b;
+  font-size: 13px;
+}
+
+/* ===== 表单 / 页脚 ===== */
+
+.form-error {
+  margin: 12px 0 0;
+  color: var(--secondary);
+  font-weight: 600;
+}
+
+.hint {
+  margin: 10px 0 0;
+  color: #b45309;
+  font-size: 13px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.footer button {
+  padding: 0 12px;
+}
+
 @media (max-width: 860px) {
   .metrics,
   .workspace,
@@ -220,3 +605,19 @@ input {
     padding: 24px;
   }
 }
+
+@media (max-width: 960px) {
+  .tl-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .tl-scale {
+    display: none;
+  }
+
+  .tl-action {
+    justify-content: flex-start;
+  }
+}
+
